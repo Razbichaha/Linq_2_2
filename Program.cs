@@ -54,14 +54,7 @@ namespace Linqu_2
 
             var amnesty = from Perpetrator in _perpetrators where Perpetrator.Status == "Антиправительственное" select Perpetrator;
             var amnestyDelete =_perpetrators .Except(amnesty);
-
-            List<Perpetrator> temp = new List<Perpetrator>();
-
-            foreach (Perpetrator perpetrator in amnestyDelete)
-            {
-                temp.Add(perpetrator);
-            }
-            _perpetrators = temp;
+            _perpetrators = amnestyDelete.ToList();
         }
 
         private void ShowAll()
