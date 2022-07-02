@@ -52,9 +52,10 @@ namespace Linqu_2
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
 
-            var amnesty = from Perpetrator in _perpetrators where Perpetrator.Status == "Антиправительственное" select Perpetrator;
-            var amnestyDelete =_perpetrators .Except(amnesty);
-            _perpetrators = amnestyDelete.ToList();
+            var amnesty = from Perpetrator in _perpetrators where Perpetrator.Status != "Антиправительственное" select Perpetrator;
+            var amnestyDelete = _perpetrators.Except(amnesty);
+            _perpetrators = amnesty.ToList();
+          //  _perpetrators = amnestyDelete.ToList();
         }
 
         private void ShowAll()
