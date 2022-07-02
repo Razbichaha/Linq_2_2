@@ -48,16 +48,20 @@ namespace Linqu_2
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Амнистия");
+            Console.WriteLine("Прошла амнистия");
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
 
-            foreach (Perpetrator perpetrator in _perpetrators)
+            var amnesty = from Perpetrator in _perpetrators where Perpetrator.Status == "Антиправительственное" select Perpetrator;
+            var amnestyDelete =_perpetrators .Except(amnesty);
+
+            List<Perpetrator> temp = new List<Perpetrator>();
+
+            foreach (Perpetrator perpetrator in amnestyDelete)
             {
-                if (perpetrator.Status == "Антиправительственное")
-                {
-                    perpetrator.SetStatusAmnesty();
-                }
+                temp.Add(perpetrator);
             }
+            _perpetrators = temp;
         }
 
         private void ShowAll()
@@ -125,7 +129,7 @@ namespace Linqu_2
 
         private void GenerateFullName()
         {
-            string[] perpetratorFullNameBase = { "Нестер Евгения Ильинична", "Самиров Леонид Егорович"
+            string[] fullNameBase = { "Нестер Евгения Ильинична", "Самиров Леонид Егорович"
                 , "Рязанцев Андрей Александрович", "Фунтов Юрий Геннадьевич", "Ивойлова Ксения Марселевна"
                 , "Шестунов Алексей Романович", "Ефанов Николай Алексеевич", "Петухина Алена Никитовна", "Качковский Вадим Васильевич"
                 , "Тунеева Маргарита Вадимовна", "Точилкина Анжелика Григорьевна", "Батраков Никита Павлович", "Вязмитинова Галина Яновна"
@@ -140,20 +144,16 @@ namespace Linqu_2
                 , "Свиногузова Кристина Ильдаровна", "Галанина Лидия Альбертовна", "Ледяева Жанна Константиновна", "Дудник Егор Радикович"
                 , "Гаянов Григорий Алексеевич" };
             Random random = new Random();
-            int minimumRandom = 0;
-            int maximumRandom = perpetratorFullNameBase.Length;
 
-            FullName = perpetratorFullNameBase[random.Next(minimumRandom, maximumRandom)];
+            FullName = fullNameBase[random.Next(fullNameBase.Length)];
         }
 
         private void GenerateStatus()
         {
             string[] status = { "Уголовное", "Антиправительственное" };
             Random random = new Random();
-            int minimumRandom = 0;
-            int maximumRandom = status.Length;
 
-            Status = status[random.Next(minimumRandom, maximumRandom)];
+            Status = status[random.Next(status.Length)];
         }
     }
 }
